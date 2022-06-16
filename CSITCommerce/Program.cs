@@ -1,5 +1,6 @@
 using CSITCommerce;
 using CSITCommerce.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,9 @@ builder.Services.AddDbContext<CommerceDbContext>(op =>
 {
     op.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MyDb;Integrated Security=True;");
 });
+
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddEntityFrameworkStores<CommerceDbContext>();
 
 var app = builder.Build();
 

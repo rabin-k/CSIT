@@ -1,9 +1,10 @@
 ﻿using CSITCommerce.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CSITCommerce
 {
-    public class CommerceDbContext : DbContext
+    public class CommerceDbContext : IdentityDbContext
     {
         public CommerceDbContext(DbContextOptions<CommerceDbContext> options) : base(options)
         {
