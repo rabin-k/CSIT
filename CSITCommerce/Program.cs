@@ -14,8 +14,9 @@ builder.Services.AddDbContext<CommerceDbContext>(op =>
     op.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MyDb;Integrated Security=True;");
 });
 
-builder.Services.AddIdentityCore<IdentityUser>()
-    .AddEntityFrameworkStores<CommerceDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<CommerceDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(op =>
 {
@@ -42,6 +43,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
