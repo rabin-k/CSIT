@@ -1,9 +1,11 @@
 ﻿using CSITCommerce.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CSITCommerce.Controllers
 {
+    [Authorize(Roles = "Store Admin, Super Admin")]
     public class ProductController : Controller
     {
         private readonly CommerceDbContext _commerceDbContext;

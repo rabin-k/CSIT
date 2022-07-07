@@ -1,0 +1,67 @@
+﻿@model CSITCommerce.Models.CategoryModel
+
+<form>
+    <label asp-for="Name">Name:</label>
+    <input id="Name" asp-for="Name" />
+
+    <label asp-for="Description">Description:</label>
+    <input id="Description" asp-for="Description" />
+
+    <input id="submit" type="button" value="Save" />
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Is Active</th>
+        </tr>
+    </thead>
+    <tbody id="table-body">
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            GetData();
+            function GetData() {
+                $.ajax({
+                    url: "/api/CategoryApi",
+                    method: "GET",
+                    success: function(response) {
+                        let html = "";
+                        for (i = 0; i < response.length; i++) {
+                            html += "<tr><td>" + response[i].name + "</td>"
+                                + "<td>" + response[i].description + "</td>"
+                                + "<td>" + response[i].isActive + "</td></tr>";
+                        }
+                        $("#table-body").html(html);
+                    }
+                });
+            }
+
+            $(document).on("click", "#submit", function(ev) {
+                var data = {
+                    Name: $("#Name").val(),
+                    Description: $("#Description").val(),
+                    IsActive: true
+                };
+
+                $.ajax({
+                    data: JSON.stringify(data),
+                    url: "/api/CategoryApi",
+                    type: "POST",
+                    contentType: "application/json",
+                    success: function(response) {
+                        GetData();
+                    },
+                    error: function(e) {
+                        alert("An error occured", e);
+                    }
+                });
+            });
+        });
+    </script>
+}

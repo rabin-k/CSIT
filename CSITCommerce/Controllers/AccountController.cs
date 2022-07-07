@@ -1,9 +1,11 @@
 ﻿using CSITCommerce.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSITCommerce.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -30,6 +32,7 @@ namespace CSITCommerce.Controllers
             return View();
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Register(UserModel model)
         {
@@ -70,12 +73,14 @@ namespace CSITCommerce.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
         {
@@ -87,6 +92,11 @@ namespace CSITCommerce.Controllers
                     bool result = await _userManager.CheckPasswordAsync(iuser, model.Password);
 
                     await _signInManager.SignInAsync(iuser, true);
+                    HttpContext.Session.SetString(iuser.Email, iuser.UserName);
+                    TempData[iuser.Email] = iuser;
+
+                    TempData.Keep("");
+
                     return RedirectToAction("/");
                 }
             }

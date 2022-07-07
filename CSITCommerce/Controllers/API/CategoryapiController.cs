@@ -22,5 +22,13 @@ namespace CSITCommerce.Controllers.API
 
             return categories;
         }
+
+        [HttpPost]
+        public IActionResult Post(CategoryModel model)
+        {
+            _commerceDbContext.Categories.Add(model);
+            _commerceDbContext.SaveChanges();
+            return Ok();
+        }
     }
 }

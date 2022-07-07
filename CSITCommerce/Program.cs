@@ -27,6 +27,7 @@ builder.Services.Configure<IdentityOptions>(op =>
 
     op.User.RequireUniqueEmail = true;
 });
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -40,6 +41,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSession();
 
 app.UseRouting();
 

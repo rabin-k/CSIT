@@ -72,5 +72,11 @@ namespace CSITCommerce.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult CreatePage()
+        {
+            return View();
+        }
     }
 }
